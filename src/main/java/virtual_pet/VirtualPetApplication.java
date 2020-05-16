@@ -14,14 +14,23 @@ public class VirtualPetApplication {
             String userCommand = input.nextLine();
             if (userCommand.equals("FEED")) {
                 myTest.updateHunger();
+                if (!myTest.hunger){
+                    System.out.println(name + " seems pretty full!");
+                }
             } else if (userCommand.equals("PLAY")) {
                 myTest.updateBoredom();
+                if (!myTest.boredom){
+                    System.out.println(name + " is having a lot of fun!");
+                }
             } else if (userCommand.equals("PET")) {
-                myTest.updateAffection();
+                myTest.updateLoneliness();
+                if (!myTest.lonely){
+                    System.out.println(name + " feels adored");
+                }
             } else {
                 System.out.println("You did not enter the valid inputs FEED PLAY or PET");
                 System.out.println("But, its good that you are trying for " + name);
-                myTest.updateAffection();
+                myTest.updateLoneliness();
             }
         }
         }

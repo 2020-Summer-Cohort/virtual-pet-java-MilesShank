@@ -1,26 +1,22 @@
 package virtual_pet;
 
-import java.sql.Time;
-import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class VirtualPet {
     public String name;
-    public int affection;
-    public int hunger;
-    public int boredom;
-    public String currentMood;
-    public long startTime;
-    public int mood;
+    public int lonelyLevel;
+    public int hungerLevel;
+    public int boredomLevel;
+    public boolean hunger;
+    public boolean boredom;
+    public boolean lonely;
     public VirtualPet(String name) {
         this.name = name;
-        this.currentMood = moods[3];
-        this.affection = 5;
-        this.hunger = 5;
-        this.boredom = 5;
-        this.startTime = 0;
+        this.lonelyLevel = 5;
+        this.hungerLevel = 5;
+        this.boredomLevel = 5;
     }
 
     void birth() {
@@ -31,89 +27,101 @@ public class VirtualPet {
             }
         };
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(tickSchedule, 0, 7, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(tickSchedule, 0, 9, TimeUnit.SECONDS);
     }
 
     void tick() {
         updateLoop();
     }
 
-    String[] moods = {"hungry", "bored", "unwanted", "happy",
-            "loving", "dead"};
-    int[] needs = {hunger, boredom, affection};
-    String[] moodDisplays = {"your pet is dreaming of food", "your pet wishes you'd play with them", " wonders whether or not they deserve to be loved"};
+    public void updateLoop() {
+        moodDecay();
+        updateDisplay();
+    }
 
-    int calculateMood() {
+    int whichMoodDecays = 0;
+    private void moodDecay() {
 
-        if (hunger == 0 || affection == 0 || boredom == 0) {
-            mood = 5;
-            System.out.println("oh no, it looks like " + name + "is dying");
-            System.out.println("Farewell, small creature");
-            System.out.println("Farewell, negligent owner");
-            System.exit(0);
-
+        if (whichMoodDecays == 0) {
+            hungerLevel--;
+            whichMoodDecays++;
+        } else if (whichMoodDecays == 1) {
+            boredomLevel--;
+            whichMoodDecays++;
+        } else if(whichMoodDecays >=2) {
+            lonelyLevel--;
+            whichMoodDecays = 0;
         }
-
-        for (int i = 0; i < needs.length; i++) {
-            if (needs[i] < 4) {
-                System.out.println(moodDisplays[i]);
-                currentMood = moods[i];
-            }
-        }
-
-        if (hunger > 5 && boredom > 5 && affection > 3) {
-            mood = 3;
-            System.out.println(name + " is contented and healthy");
-        }
-        if (affection > 6) {
-            mood = 4;
-            System.out.println(name + " loves you so very much");
-        }
-
-        return mood;
     }
 
     void updateDisplay() {
-        System.out.println(name + " is feeling " + currentMood + " currently");
+        calculateMood();
+    }
+
+    void calculateMood() {
+        if (hungerLevel == 0 || lonelyLevel == 0 || boredomLevel == 0) {
+             death();
+        }
+        calculateHunger();
+        calculateLoneliness();
+        calculateBoredom();
+
+        if((!hunger && !boredom && !lonely)){
+            System.out.println("feelin happy!");
+        }
+    }
+
+    private void death() {
+        System.out.println("oh no, it looks like " + name + " is dying");
+        System.out.println("Farewell, small creature");
+        System.out.println("Farewell, negligent owner");
+        System.exit(0);
+    }
+    private void calculateHunger(){
+        if(hungerLevel <=4){
+            System.out.println("feelin hungry");
+            hunger = true;
+        }else{
+            hunger = false;
+        }
+    }
+    private void calculateLoneliness(){
+        if(lonelyLevel <=4){
+            System.out.println("feelin lonely");
+            lonely = true;
+        }else{
+            lonely = false;
+        }
+    }
+    private void calculateBoredom() {
+        if(boredomLevel <=4){
+            System.out.println("feelin bored");
+            boredom = true;
+        }else{
+            boredom = false;
+        }
     }
 
     public void updateHunger(){
-        hunger++;
+        System.out.println(hungerLevel);
+        hungerLevel++;
         System.out.println("you fed "+ name + " a tasty snack");
-        updateDisplay();
+        System.out.println(hungerLevel);
+        calculateMood();
+
     }
     public void updateBoredom(){
-      boredom++;
-      System.out.println("you and "+ name + " played with a ball for a while");
-      updateDisplay();
+        System.out.println(boredomLevel);
+      boredomLevel++;
+      System.out.println(boredomLevel);
+      System.out.println("you and "+ name + " played around for a while");
+        calculateMood();
     }
-    public void updateAffection(){
-        affection++;
+    public void updateLoneliness(){
+        System.out.println(lonelyLevel);
+        lonelyLevel++;
+        System.out.println(lonelyLevel);
         System.out.println("you pet " + name + " vigorously, and remind them that they are good and important");
-        updateDisplay();
-    }
-
-    public void updateLoop() {
-        moodDecay();
-        currentMood = moods[calculateMood()];
-        updateDisplay();
-    }
-
-    int moodMode = 0;
-
-    private void moodDecay() {
-        if (moodMode == 0) {
-            hunger--;
-        } else if (moodMode == 1) {
-            boredom--;
-        } else if(moodMode >=2) {
-            affection--;
-            moodMode = 0;
-        }
-
-    }
-
-    public String getName() {
-        return name;
+        calculateMood();
     }
 }
