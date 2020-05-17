@@ -23,14 +23,18 @@ public class VirtualPet {
         Runnable tickSchedule = new Runnable() {
             @Override
             public void run() {
+
                 tick();
             }
         };
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(tickSchedule, 0, 9, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(tickSchedule, 0, 5, TimeUnit.SECONDS);
     }
 
     void tick() {
+        System.out.println(" . ");
+        System.out.println(" . ");
+        System.out.println("Time flies when you're responsible for another living creature!");
         updateLoop();
     }
 
@@ -53,7 +57,6 @@ public class VirtualPet {
             whichMoodDecays = 0;
         }
     }
-
     void updateDisplay() {
         calculateMood();
     }
@@ -67,35 +70,37 @@ public class VirtualPet {
         calculateBoredom();
 
         if((!hunger && !boredom && !lonely)){
-            System.out.println("feelin happy!");
+            System.out.println(name + " is feelin happy! m(^o^)m");
         }
     }
-
     private void death() {
         System.out.println("oh no, it looks like " + name + " is dying");
-        System.out.println("Farewell, small creature");
+        System.out.println("Farewell, small creature m(x.x)m");
         System.out.println("Farewell, negligent owner");
         System.exit(0);
     }
+
     private void calculateHunger(){
         if(hungerLevel <=4){
-            System.out.println("feelin hungry");
+            System.out.println(name + " is feelin hungry m(0.0)m ");
             hunger = true;
         }else{
             hunger = false;
         }
     }
+
     private void calculateLoneliness(){
         if(lonelyLevel <=4){
-            System.out.println("feelin lonely");
+            System.out.println(name + " is feelin lonely m(v.v)m");
             lonely = true;
         }else{
             lonely = false;
         }
     }
+
     private void calculateBoredom() {
         if(boredomLevel <=4){
-            System.out.println("feelin bored");
+            System.out.println(name + " is feelin  bored m(-.-)m");
             boredom = true;
         }else{
             boredom = false;
@@ -103,25 +108,21 @@ public class VirtualPet {
     }
 
     public void updateHunger(){
-        System.out.println(hungerLevel);
         hungerLevel++;
-        System.out.println("you fed "+ name + " a tasty snack");
-        System.out.println(hungerLevel);
+        System.out.println("you fed "+ name + " a nutritous tasty snack m(^.^)m");
         calculateMood();
 
     }
+
     public void updateBoredom(){
-        System.out.println(boredomLevel);
       boredomLevel++;
-      System.out.println(boredomLevel);
-      System.out.println("you and "+ name + " played around for a while");
+      System.out.println("you and "+ name + " played around for a while m(>.<)m");
         calculateMood();
     }
+
     public void updateLoneliness(){
-        System.out.println(lonelyLevel);
         lonelyLevel++;
-        System.out.println(lonelyLevel);
-        System.out.println("you pet " + name + " vigorously, and remind them that they are good and important");
+        System.out.println("you remind " + name + " that they are very important m(v//v)m");
         calculateMood();
     }
 }
