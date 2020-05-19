@@ -1,7 +1,20 @@
 package virtual_pet;
 
 import java.util.Scanner;
-
+/*
+ * I love the application, but I would like to see some simplifying of the VirtualPet class.  It's a little crowded with
+ * some game engine stuff, when all that class should have is the behaviors of a pet.
+ *
+ * There is a principle we usually talk about later in the cohort called the 'Single Responsibility Principle'
+ * - https://en.wikipedia.org/wiki/Single-responsibility_principle
+ * I feel like the VirtualPet class right now is hiding a couple responsibilities, the first is the behaviors and
+ * properties of a pet, and the second the timed execution of the tick.  Separating them would be be beneficial in the
+ * long run.
+ *
+ * Again, really like the app, but we are going to be building on it for another week and it might be easier with a
+ * simplified VirtualPet and a turn-based approach rather than a time based.  But if you want to keep the time based
+ * approach, schedule a time with me to help extract the timer based methods to their own class.
+ */
 public class VirtualPetApplication {
 
     public static void main(String[] args) {
