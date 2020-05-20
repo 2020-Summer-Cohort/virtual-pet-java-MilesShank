@@ -22,33 +22,38 @@ public class VirtualPetApplication {
         String name = initialInstructions(input);
 
         VirtualPet myTest = new VirtualPet(name);
-        myTest.birth();
+        gameLoop.birth(myTest);
         while (true) {
             String userCommand = input.nextLine();
             if (userCommand.equalsIgnoreCase("FEED")) {
-                myTest.updateHunger();
+                updateHunger(myTest);
                 if (!myTest.hunger) {
                     System.out.println(name + " seems pretty full!");
                 }
             } else if (userCommand.equalsIgnoreCase("PLAY")) {
-                myTest.updateBoredom();
+                updateBoredom(myTest);
                 if (!myTest.boredom) {
                     System.out.println(name + " is having a lot of fun!");
                 }
             } else if (userCommand.equalsIgnoreCase("PET")) {
                 System.out.println("you pet " + name + " vigorously, ");
-                myTest.updateLoneliness();
+                updateLoneliness(myTest);
                 if (!myTest.lonely) {
                     System.out.println(name + " feels adored");
                 }
             } else {
                 System.out.println("You did not enter the valid inputs FEED PLAY or PET");
                 System.out.println("But, " + name + " notices that you care");
-                myTest.updateLoneliness();
+                updateLoneliness(myTest);
             }
         }
     }
-
+    static void tick(VirtualPet myTest) {
+        System.out.println(" . ");
+        System.out.println(" . ");
+        System.out.println("Time flies when you're responsible for another living creature!");
+        myTest.updateLoop();
+    }
     public static String initialInstructions(Scanner input) {
         System.out.println("It's so kind of you to open your heart and adopt!");
         System.out.println("Please enter a name for your new animal friend");
@@ -66,6 +71,22 @@ public class VirtualPetApplication {
         return petName;
 
 
+    }    public static void updateHunger(VirtualPet myTest){
+        myTest.hungerLevel++;
+        System.out.println("you fed "+ myTest.getName() + " a nutritous tasty snack m(^.^)m");
+        myTest.calculateMood();
+
     }
 
+    public static void updateBoredom(VirtualPet myTest){
+        myTest.boredomLevel++;
+        System.out.println("you and "+ myTest.getName() + " played around for a while m(>.<)m");
+        myTest.calculateMood();
+    }
+
+    public static void updateLoneliness(VirtualPet myTest){
+        myTest.lonelyLevel++;
+        System.out.println("you remind " + myTest.getName() + " that they are very important m(v//v)m");
+        myTest.calculateMood();
+    }
 }

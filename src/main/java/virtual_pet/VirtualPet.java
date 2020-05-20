@@ -28,7 +28,7 @@ public class VirtualPet {
         this.hungerLevel = 5;
         this.boredomLevel = 5;
     }
-
+/*
     void birth() {
         Runnable tickSchedule = new Runnable() {
             @Override
@@ -47,7 +47,7 @@ public class VirtualPet {
         System.out.println("Time flies when you're responsible for another living creature!");
         updateLoop();
     }
-
+*/
     public void updateLoop() {
         moodDecay();
         updateDisplay();
@@ -90,7 +90,7 @@ public class VirtualPet {
         System.exit(0);
     }
 
-    private void calculateHunger(){
+    public void calculateHunger(){
         if(hungerLevel <=4){
             System.out.println(name + " is feelin hungry m(0.0)m ");
             hunger = true;
@@ -99,7 +99,7 @@ public class VirtualPet {
         }
     }
 
-    private void calculateLoneliness(){
+    public void calculateLoneliness(){
         if(lonelyLevel <=4){
             System.out.println(name + " is feelin lonely m(v.v)m");
             lonely = true;
@@ -108,7 +108,7 @@ public class VirtualPet {
         }
     }
 
-    private void calculateBoredom() {
+    public void calculateBoredom() {
         if(boredomLevel <=4){
             System.out.println(name + " is feelin  bored m(-.-)m");
             boredom = true;
@@ -116,23 +116,8 @@ public class VirtualPet {
             boredom = false;
         }
     }
+    public String getName(){
+      return name;
+    };
 
-    public void updateHunger(){
-        hungerLevel++;
-        System.out.println("you fed "+ name + " a nutritous tasty snack m(^.^)m");
-        calculateMood();
-
-    }
-
-    public void updateBoredom(){
-      boredomLevel++;
-      System.out.println("you and "+ name + " played around for a while m(>.<)m");
-        calculateMood();
-    }
-
-    public void updateLoneliness(){
-        lonelyLevel++;
-        System.out.println("you remind " + name + " that they are very important m(v//v)m");
-        calculateMood();
-    }
 }
