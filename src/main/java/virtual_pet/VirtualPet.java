@@ -1,20 +1,7 @@
 package virtual_pet;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-/*
- * There's alot to like here, but I want to encourage you to rethink the tick method and remove the timer based tick and
- * replace it with a 'turn based' tick.  Think of the tick as way to advance a game state after teh user takes a turn.
- * Consider the application a turn-based app instead of a realtime application.  I know a good deal of research was
- * probably done to figure out the every Executor, but its a little much at this point and will be a bear to work with
- * as we expand on this project later in the week.
- *
- * Also we would like to see the VirtualPet class a little simpler, it has a bunch of references to how the game works
- * and displays data beside the behavior of a pet.  We want the VirtualPet class to be only about the things you pet
- * would know about.
- */
-public class VirtualPet {
+
+public class VirtualPet implements IgameLoopable{
     public String name;
     public int lonelyLevel;
     public int hungerLevel;
@@ -28,27 +15,11 @@ public class VirtualPet {
         this.hungerLevel = 5;
         this.boredomLevel = 5;
     }
-/*
-    void birth() {
-        Runnable tickSchedule = new Runnable() {
-            @Override
-            public void run() {
 
-                tick();
-            }
-        };
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(tickSchedule, 0, 5, TimeUnit.SECONDS);
-    }
-
-    void tick() {
+    public void update() {
         System.out.println(" . ");
         System.out.println(" . ");
         System.out.println("Time flies when you're responsible for another living creature!");
-        updateLoop();
-    }
-*/
-    public void updateLoop() {
         moodDecay();
         updateDisplay();
     }
@@ -75,6 +46,7 @@ public class VirtualPet {
         if (hungerLevel == 0 || lonelyLevel == 0 || boredomLevel == 0) {
              death();
         }
+
         calculateHunger();
         calculateLoneliness();
         calculateBoredom();
